@@ -6,13 +6,55 @@
     <title>Todo app</title>
 </head>
 <script>
+    function getData()
+    {
+        fetch("http://localhost:3001/todos", {
+            method: "GET"
+        }).then((res) => {
+            res.json().then((data)=> {
+                console.log(data);
+                var parentElement = document.getElementById("mainArea");
+                // parentElement.innerHTML = JSON.stringify(data);
+                data.forEach((todo) => {
+                    var childElement = document.createElement("div");
+                    var e1 = document.createElement("h3");
+                    var e2 = document.createElement("span");
+                    var e3 = document.createElement("button");
+                    e3.setAttribute("onclick" , "deletetodo(" + todo.id + ")");
+
+                    e1.innerHTML = todo.title;
+                    e2.innerHTML = todo.description;
+                    e3.innerHTML = "delete";
+
+                    childElement.appendChild(e1);
+                    childElement.appendChild(e2);
+                    childElement.appendChild(e3);
+                    parentElement.appendChild(childElement);
+                })
+            })
+        })
+    }
+
+    function deletetodo(id)
+    {
+        fetch("http://localhost:3001/todos/"+ id ,{
+            method: "DELETE"
+        }).then(()=>{
+            console.log("deletedone");
+        });
+    }
+
+    getData();
+
     function onPress()
     {
+        var title = document.getElementById("title").value;//fetching value from frontend
+        var description = document.getElementById("description").value;
         fetch("http://localhost:3001/todos" , {
             method: "POST",
             body : JSON.stringify({
-                title:"gym",
-                description:"go to gym at 7"
+                title: title,
+                description: description
             }),
             headers : {
                 "Content-Type":"application/json"
@@ -20,6 +62,21 @@
         }).then((res)=>{
             res.json().then((data)=>{ // response object
                 console.log(data);
+
+                var parentElement = document.getElementById("mainArea");
+                var childElement = document.createElement("div");
+                var e1 = document.createElement("h3");
+                var e2 = document.createElement("span");
+                var e3 = document.createElement("button");
+                e3.setAttribute("onclick" , "deletetodo(" + todo.id + ")");
+                e1.innerHTML = title;
+                e2.innerHTML = description;
+                e3.innerHTML = "delete";
+
+                childElement.appendChild(e1);
+                childElement.appendChild(e2);
+                childElement.appendChild(e3);
+                parentElement.appendChild(childElement);
             });
         });
     }
@@ -29,8 +86,10 @@
     <input type="text" id="title"></input>
     <br><br>
     Todo description
-    <input type="text" id="title"></input>
+    <input type="text" id="description"></input>
     <br><br>
     <button onclick="onPress()">send todo</button>
+    <div id="mainArea">
+    </div>
 </body>
 </html>
