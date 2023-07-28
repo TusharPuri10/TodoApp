@@ -6,6 +6,17 @@
     <title>Todo app</title>
 </head>
 <script>
+    function deletetodo(id)
+    {
+        fetch("http://localhost:3001/todos/"+ id ,{
+            method: "DELETE"
+        }).then(() => {
+            //deleting from rows
+            var parentElement = document.getElementById("mainArea");
+            var element = document.getElementById(id);
+            parentElement.removeChild(element);
+            });
+    }
     function getData()
     {
         fetch("http://localhost:3001/todos", {
@@ -17,14 +28,15 @@
                 // parentElement.innerHTML = JSON.stringify(data);
                 data.forEach((todo) => {
                     var childElement = document.createElement("div");
+                    childElement.setAttribute("id",todo.id);
                     var e1 = document.createElement("h3");
                     var e2 = document.createElement("span");
                     var e3 = document.createElement("button");
-                    e3.setAttribute("onclick" , "deletetodo(" + todo.id + ")");
 
                     e1.innerHTML = todo.title;
                     e2.innerHTML = todo.description;
                     e3.innerHTML = "delete";
+                    e3.setAttribute("onclick" , "deletetodo('" + todo.id + "')");
 
                     childElement.appendChild(e1);
                     childElement.appendChild(e2);
@@ -35,21 +47,14 @@
         })
     }
 
-    function deletetodo(id)
-    {
-        fetch("http://localhost:3001/todos/"+ id ,{
-            method: "DELETE"
-        }).then(()=>{
-            console.log("deletedone");
-        });
-    }
-
     getData();
 
     function onPress()
     {
         var title = document.getElementById("title").value;//fetching value from frontend
         var description = document.getElementById("description").value;
+        document.getElementById("title").value="";
+        document.getElementById("description").value="";
         fetch("http://localhost:3001/todos" , {
             method: "POST",
             body : JSON.stringify({
@@ -60,15 +65,15 @@
                 "Content-Type":"application/json"
             }
         }).then((res)=>{
-            res.json().then((data)=>{ // response object
-                console.log(data);
+            res.json().then((todo)=>{ // response object
+                console.log(todo);
 
                 var parentElement = document.getElementById("mainArea");
                 var childElement = document.createElement("div");
                 var e1 = document.createElement("h3");
                 var e2 = document.createElement("span");
                 var e3 = document.createElement("button");
-                e3.setAttribute("onclick" , "deletetodo(" + todo.id + ")");
+                e3.setAttribute("onclick" , "deletetodo(" + todo.id + ")");//how to get id here
                 e1.innerHTML = title;
                 e2.innerHTML = description;
                 e3.innerHTML = "delete";

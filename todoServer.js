@@ -97,7 +97,6 @@ app.post("/todos",(req, res) => {
   const id = uuidv1();
   todo.id = id;
   todo.title = req.body.title;
-  // todo.completed = req.body.completed;
   todo.description = req.body.description;
   fs.readFile("todos.json","utf-8",(err, data) => {
     if(err) throw err;
