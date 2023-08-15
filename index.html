@@ -8,7 +8,7 @@
 <script>
     function deletetodo(id)
     {
-        fetch("http://localhost:3001/todos/"+ id ,{
+        fetch("http://localhost:3000/todos/"+ id ,{
             method: "DELETE"
         }).then(() => {
             //deleting from rows
@@ -19,7 +19,7 @@
     }
     function getData()
     {
-        fetch("http://localhost:3001/todos", {
+        fetch("http://localhost:3000/todos", {
             method: "GET"
         }).then((res) => {
             res.json().then((data)=> {
@@ -55,7 +55,7 @@
         var description = document.getElementById("description").value;
         document.getElementById("title").value="";
         document.getElementById("description").value="";
-        fetch("http://localhost:3001/todos" , {
+        fetch("http://localhost:3000/todos" , {
             method: "POST",
             body : JSON.stringify({
                 title: title,
@@ -70,10 +70,11 @@
 
                 var parentElement = document.getElementById("mainArea");
                 var childElement = document.createElement("div");
+                childElement.setAttribute("id",todo.id);
                 var e1 = document.createElement("h3");
                 var e2 = document.createElement("span");
                 var e3 = document.createElement("button");
-                e3.setAttribute("onclick" , "deletetodo(" + todo.id + ")");//how to get id here
+                e3.setAttribute("onclick" , "deletetodo('" + todo.id + "')");//how to get id here
                 e1.innerHTML = title;
                 e2.innerHTML = description;
                 e3.innerHTML = "delete";
