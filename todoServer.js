@@ -75,7 +75,7 @@ function authorization(req,res,next)
     jwt.verify(token,SECRET,(err,user)=>{
       if(err)
       {
-        res.sendstatus(403);
+        res.sendStatus(403);
       }
       else
       {
@@ -92,6 +92,13 @@ function authorization(req,res,next)
 
 //All route handlers
 
+//0. get username
+app.get("/username", authorization, async(req,res)=>{
+  res.json({
+    username: req.user.username
+  })
+});
+
 // 1. User Signup
 app.post("/signup" , async(req,res)=>{
 
@@ -99,7 +106,7 @@ app.post("/signup" , async(req,res)=>{
     const { username, password } = req.body;
     const user = await User.findOne({ username });
     if (user) {
-      res.status(403).json({ message: 'Admin already exists' });
+      res.status(403).json({ message: 'User already exists' });
     } else {
       const obj = { username: username, password: password };
       const newUser = new User(obj);
@@ -111,7 +118,7 @@ app.post("/signup" , async(req,res)=>{
 
 // 2. User login
 app.post('/login', async (req, res) => {
-  const { username, password } = req.headers;
+  const { username, password } = req.body;
   const user = await User.findOne({ username, password });
   if (user) {
     const token = jwt.sign({ username}, SECRET, { expiresIn: '1h' });
@@ -121,10 +128,15 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// 3. Retrieve all todo items
+// 3. Retrieve all todo items ( according to user )
 app.get("/todos",authorization, async (req,res) => {
-  const todos = await Todo.find({});
-  res.json({ todos });
+    // logic to view todo of particular user
+    const user = await User.findOne({ username: req.user.username }).populate('todos');
+    if (user) {
+      res.json({ todos: user.todos});
+    } else {
+      res.status(403).json({ message: 'User not found' });
+    }
 });
 
 // 4. Get a todo item
@@ -140,11 +152,18 @@ app.get("/todos/:id",authorization, async(req,res) => {
   }
 });
 
-// 5. Create a todo item
+// 5. Create a todo item ( according to user )
 app.post("/todos", authorization, async (req, res) => {
   const todo = new Todo(req.body);
   await todo.save();
-  res.json({ message: 'Todo created successfully', todoId: todo.id });
+  const user = await User.findOne({ username: req.user.username });
+    if (user) {
+        user.todos.push(todo);
+        await user.save();
+        res.json({ message: 'Todo created successfully', todoId: todo.id });
+    } else {
+      res.status(403).json({ message: 'User not found' });
+    }
 });
 
 // 6. Update a todo item
@@ -156,7 +175,6 @@ app.put("/todos/:id",authorization, async (req,res) => {
   } else {
     res.status(404).json({ message: 'todo not found' });
   }
-
 });
 
 //7. Delete a todo item

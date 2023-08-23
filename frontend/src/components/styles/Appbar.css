@@ -1,0 +1,30 @@
+.bar{
+    display: flex;
+    justify-content: space-between;
+}
+p {
+    color: #D8D9DA;
+    padding: 0.5rem;
+}
+.userbox{
+    display: flex;
+}
+.userbox Button{
+    color: #D8D9DA;
+}
+.username{
+    color: #D8D9DA;
+    font-size: large;
+    padding: 0.5rem;
+}
+.navLink {
+    font-size: large;
+    color: #D8D9DA;
+    text-decoration: none;
+    padding: 0.5rem;
+    
+}
+
+.navLink.active {
+    color: #1976d2;
+}
