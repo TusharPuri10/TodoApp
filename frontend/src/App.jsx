@@ -10,11 +10,13 @@ function App()
   return <div className="app-main">
     <BrowserRouter>
     <Appbar/>
+    <div className="scroll">
       <Routes>
         <Route path="/login" element={<Login/>}/> 
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/todos" element={<TodoPage/>}/>
       </Routes>
+    </div>
     </BrowserRouter>
   </div>
 }

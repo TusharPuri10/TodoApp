@@ -2,7 +2,16 @@ body{
     margin: 0;
 }
 .app-main{
+    background-color: hsl(210, 3%, 16%);  
+    position: fixed;
     width: 100vw;
-    height: 100vh;
-    background-color: #272829;  
+    height: 100vh; 
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+}
+.scroll{
+    overflow-y: scroll;
+    height: 100%;
 }
