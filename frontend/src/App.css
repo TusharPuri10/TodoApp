@@ -11,6 +11,27 @@ body{
     left: 0;
     top: 0;
 }
+.blur-page{
+    background-color: #0c0d0d;
+    opacity: 0.75;
+    filter: blur(0.5px);
+}
+.overlay{
+    position: absolute;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto;
+    z-index: 9;
+}
+.underlay{
+    position: absolute;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto;
+    z-index: -9;
+}
 .scroll{
     overflow-y: scroll;
     height: 100%;

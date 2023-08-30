@@ -63,7 +63,7 @@ const todoSchema = new mongoose.Schema({
 const User = mongoose.model('User',userSchema);
 const Todo = mongoose.model('Todo',todoSchema);
 
-mongoose.connect('mongodb+srv://iamtusharpuri:vrOuq9hRD5Wyy1QV@todoapp.nrvjyzj.mongodb.net/')//TODO: add connection string here
+mongoose.connect('mongodb+srv://iamtusharpuri:BKdwitaMP711lt56@todoapp.nrvjyzj.mongodb.net/')//TODO: add connection string here
 
 //Authorization
 function authorization(req,res,next)
