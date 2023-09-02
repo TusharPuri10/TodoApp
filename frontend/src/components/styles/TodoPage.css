@@ -23,10 +23,10 @@
     border-color: rgb(25, 231, 10);
 }
 .hidden{
-    background-color: #0c0d0d;
+    background-color: #080909;
 }
 .hidden p{
-    color: #0c0d0d;
+    color: #080909;
 }
 .cover{
     position: relative;
@@ -49,9 +49,9 @@
 }
 
 .update{
-    background-color: #dcfbe0;
+    background-color: white;
+    border: solid 2px #001C30;
     left: 0; 
     right: 0; 
-
     margin: 180px auto;
 }

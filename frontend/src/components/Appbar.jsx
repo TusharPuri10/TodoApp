@@ -7,7 +7,7 @@ function Appbar()
     const [userEmail,setUserEmail] = useState(null);
 
     useEffect(()=>{
-        fetch("http://localhost:3000/username",{
+        fetch("http://localhost:3000/authentication/username",{
             method: "GET",
             headers: {
                 "authorization" : "Bearer " + localStorage.getItem("token")

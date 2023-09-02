@@ -17,18 +17,18 @@ function useGetTodo(){
             })
         })
   
-    setInterval(()=>{
-      fetch("http://localhost:3000/todos", {
-        method: "GET",
-        headers: {
-            "authorization" : "Bearer " + localStorage.getItem("token")
-        }
-    }).then((res) => {
-        res.json().then((data)=> {
-          setTodos(data.todos);
-            })
-        });
-    },1000)
+    // setInterval(()=>{
+    //   fetch("http://localhost:3000/todos", {
+    //     method: "GET",
+    //     headers: {
+    //         "authorization" : "Bearer " + localStorage.getItem("token")
+    //     }
+    // }).then((res) => {
+    //     res.json().then((data)=> {
+    //       setTodos(data.todos);
+    //         })
+    //     });
+    // },1000)
   },[])
   
     return todos;
@@ -40,7 +40,7 @@ function TodoPage(props)
 
     return <div className="main-page">
         <Heading/>
-        {todos.map(todo=><Todo isShown={props.isShown} setShown={props.setShown} key={todo._id} id={todo._id} title={todo.title} description={todo.description} completed={todo.completed}></Todo>)}
+        {todos.map(todo=><Todo setId={props.setId} isShown={props.isShown} setShown={props.setShown} isCardShown={props.isCardShown} setCardShown={props.setCardShown}key={todo._id} id={todo._id} title={todo.title} description={todo.description} completed={todo.completed} setTitle={props.setTitle} setDescription={props.setDescription} setCompleted={props.setCompleted}></Todo>)}
         </div>
 }
 

@@ -36,7 +36,7 @@ function Signup()
       <CardActions>
         <Button size="small" variant="contained" onClick={()=>{
 
-            fetch("http://localhost:3000/signup",{
+            fetch("http://localhost:3000/authentication/signup",{
                 method: "POST",
                 body: JSON.stringify({
                     username: email,

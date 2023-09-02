@@ -12,9 +12,9 @@ body{
     top: 0;
 }
 .blur-page{
-    background-color: #0c0d0d;
+    background-color: #080909;
     opacity: 0.75;
-    filter: blur(0.5px);
+    filter: blur(0.7px);
 }
 .overlay{
     position: absolute;
@@ -27,7 +27,7 @@ body{
 .underlay{
     position: absolute;
     left: 0; 
-    right: 0; 
+    right: 0;
     margin-left: auto; 
     margin-right: auto;
     z-index: -9;

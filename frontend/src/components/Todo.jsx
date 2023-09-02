@@ -11,18 +11,21 @@ export function Todo(props)
 {
     const [isActive, setActive] = useState(props.completed);
     const [isCardShown, setCardShown] = useState(false);
-    
+
+    useEffect(()=>{
+        if(props.isShown==false)
+        setCardShown(false);
+    },[props.isShown])
 
   return <div className={isActive ? (isCardShown ? "done card todo hidden" : "done card todo")  : (isCardShown ? "card todo hidden" : "card todo")}  id={props.id} >
     <CardContent>
-        {/* TODO: add id to each todo card */}
         <Typography sx={{ mb: 1.5 }} variant="body1" color="text.primary">{props.title}</Typography> 
         <Typography  variant="body2" color="text.secondary">{props.description}</Typography>
     </CardContent>
 
     <div className={isCardShown ? "cover" : ""}>
     <CardActions className="button-group">
-        {/* TODO: add 1. Update 2. Complete 3. Delete */}
+
         <Fab color="primary" aria-label="add" onClick={()=>{
             fetch("http://localhost:3000/todos/"+props.id,{
                 method: "PUT",
@@ -46,8 +49,12 @@ export function Todo(props)
         </Fab>
 
         <Fab color="primary" aria-label="add" onClick={()=>{
+            props.setId(props.id);
             setCardShown(!isCardShown);
             props.setShown(!props.isShown);
+            props.setTitle(props.title);
+            props.setDescription(props.description);
+            props.setCompleted(isActive);
         }}>
             <EditIcon fontSize="small" />
         </Fab>

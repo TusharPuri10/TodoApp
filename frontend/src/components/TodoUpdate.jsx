@@ -7,30 +7,58 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import './styles/TodoPage.css'
 
-export function TodoUpdate(){
+export function TodoUpdate(props){
+
+    const [title,setTitle] = useState(props.title);
+    const [description,setDescription] = useState(props.description);
+
+
     return <div className="update card">
         <CardContent>
         <Typography variant="overline" display="block" color="text.secondary">
-          Update the todo
+          Edit the Todo
         </Typography> 
         <TextField
           id="standard-basic"
-          label="Title"
           variant="standard"
+          value={title}
+          onChange={(e)=>{
+            setTitle(e.target.value);
+          }}
            />
         <br />
         <TextField
           id="standard-multiline-flexible"
-          label="Description"
           multiline
           maxRows={10}
           variant="standard"
+          value={description}
+          onChange={(e)=>{
+            setDescription(e.target.value);
+          }}
         />
     </CardContent>
     <CardActions>
-      <Fab variant="extended" className="add-icon">
-        <AddIcon fontSize="small" /> 
-        add
+      <Fab color="primary" variant="extended" className="add-icon" onClick={()=>{
+            fetch("http://localhost:3000/todos/"+props.id,{
+                method: "PUT",
+                body: JSON.stringify({
+                    title: title,
+                    description: description,
+                    completed: props.completed
+                }),
+                headers:{
+                "authorization" : "Bearer " + localStorage.getItem("token"),
+                "Content-type": "application/json"
+                }
+            }).then((res)=>{
+            res.json().then((data)=>{ 
+                props.setShown(!props.isShown);
+                console.log(data.message);
+            })
+            });
+        }}>
+        Save
       </Fab>
     </CardActions>
     </div>
