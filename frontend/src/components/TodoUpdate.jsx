@@ -4,8 +4,8 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import { Button, Typography,TextField, IconButton } from "@mui/material";
 import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 import './styles/TodoPage.css'
+import axios from 'axios';
 
 export function TodoUpdate(props){
 
@@ -39,24 +39,19 @@ export function TodoUpdate(props){
         />
     </CardContent>
     <CardActions>
-      <Fab color="primary" variant="extended" className="add-icon" onClick={()=>{
-            fetch("http://localhost:3000/todos/"+props.id,{
-                method: "PUT",
-                body: JSON.stringify({
-                    title: title,
-                    description: description,
-                    completed: props.completed
-                }),
-                headers:{
-                "authorization" : "Bearer " + localStorage.getItem("token"),
-                "Content-type": "application/json"
-                }
-            }).then((res)=>{
-            res.json().then((data)=>{ 
-                props.setShown(!props.isShown);
-                console.log(data.message);
-            })
+      <Fab color="primary" variant="extended" className="add-icon" onClick={async ()=>{
+            const res = await axios.put("http://localhost:3000/todos/"+props.id , {
+              title: title,
+              description: description,
+              completed: props.completed
+            }, {
+              headers: {
+                "authorization": "Bearer " + localStorage.getItem("token"),
+              }
             });
+            const data = res.data;
+            props.setShown(!props.isShown);
+            console.log(data.message);
         }}>
         Save
       </Fab>

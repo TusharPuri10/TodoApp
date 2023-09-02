@@ -2,24 +2,25 @@ import { Button, Typography } from "@mui/material";
 import './styles/Appbar.css'
 import { NavLink} from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from 'axios';
 function Appbar()
 {
     const [userEmail,setUserEmail] = useState(null);
 
-    useEffect(()=>{
-        fetch("http://localhost:3000/authentication/username",{
-            method: "GET",
-            headers: {
-                "authorization" : "Bearer " + localStorage.getItem("token")
-            }
-        }).then((res)=>{
-            res.json().then((data)=>{
-                if(data.username)
-                {
-                    setUserEmail(data.username);
+    useEffect( ()=>{
+        async function fetchUsername()
+        {
+            const res = await axios.get("http://localhost:3000/authentication/username", {
+                headers: {
+                    "authorization" : "Bearer " + localStorage.getItem("token")
                 }
             });
-        });
+            if(res.data.username)
+            {
+                setUserEmail(res.data.username);
+            }
+        }
+        fetchUsername();
     }, []);
 
         //TODO: control reaches here and since userEmail is null untill the fetches complete that's why a flash of else condition is showed after reload

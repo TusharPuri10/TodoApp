@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import { Button, Typography,TextField, IconButton } from "@mui/material";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import axios from 'axios';
 
 export function Heading()
 {
@@ -40,26 +41,20 @@ export function Heading()
         />
     </CardContent>
     <CardActions>
-      <Fab variant="extended" className="add-icon" onClick={()=>{
-    fetch("http://localhost:3000/todos",{
-        method: "POST",
-        body: JSON.stringify({
+      <Fab variant="extended" className="add-icon" onClick={async ()=>{
+        const res = await axios.post("http://localhost:3000/todos",{
             title: title,
             description: description,
             completed: false
-        }),
-        headers:{
-          "authorization" : "Bearer " + localStorage.getItem("token"),
-          "Content-type": "application/json"
-        }
-    }).then((res)=>{
-    res.json().then((data)=>{ 
-          console.log(data.todoId);
-      })
-    });
-    setTitle("");
-    setDescription("");
-}}>
+        },{
+          headers:{
+            "authorization" : "Bearer " + localStorage.getItem("token"),
+          }
+        });
+        console.log(res.data.todoId);
+        setTitle("");
+        setDescription("");
+      }}>
         <AddIcon fontSize="small" /> 
         add
       </Fab>

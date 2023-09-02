@@ -6,6 +6,7 @@ import Fab from '@mui/material/Fab';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
+import axios from 'axios';
 
 export function Todo(props)
 {
@@ -26,24 +27,18 @@ export function Todo(props)
     <div className={isCardShown ? "cover" : ""}>
     <CardActions className="button-group">
 
-        <Fab color="primary" aria-label="add" onClick={()=>{
-            fetch("http://localhost:3000/todos/"+props.id,{
-                method: "PUT",
-                body: JSON.stringify({
+        <Fab color="primary" aria-label="add" onClick={ async()=>{
+            const res = await axios.put("http://localhost:3000/todos/"+props.id,{
                     title: props.title,
                     description: props.description,
                     completed: !isActive
-                }),
+            },{
                 headers:{
                 "authorization" : "Bearer " + localStorage.getItem("token"),
-                "Content-type": "application/json"
                 }
-            }).then((res)=>{
-            res.json().then((data)=>{ 
-                setActive(!isActive);
-                console.log(data.message);
-            })
             });
+            setActive(!isActive);
+            console.log(res.data.message);
         }}>
             <CheckIcon fontSize="small" />
         </Fab>
@@ -59,23 +54,13 @@ export function Todo(props)
             <EditIcon fontSize="small" />
         </Fab>
 
-        <Fab color="primary" aria-label="add" onClick={()=>{
-            fetch("http://localhost:3000/todos/"+props.id,{
-                method: "DELETE",
-                body: JSON.stringify({
-                    title: props.title,
-                    description: props.description,
-                    completed: isActive
-                }),
+        <Fab color="primary" aria-label="add" onClick={async ()=>{
+            const res = await axios.delete("http://localhost:3000/todos/"+props.id,{
                 headers:{
                 "authorization" : "Bearer " + localStorage.getItem("token"),
-                "Content-type": "application/json"
                 }
-            }).then((res)=>{
-            res.json().then((data)=>{ 
-                console.log(data.message);
-            })
             });
+            console.log(res.data.message);
         }} >
             <DeleteIcon fontSize="small" />
         </Fab>

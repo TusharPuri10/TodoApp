@@ -4,6 +4,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import { useState } from 'react';
+import axios from 'axios';
 
 function Login()
 {
@@ -34,25 +35,13 @@ function Login()
         <br /><br />
       </CardContent>
       <CardActions>
-        <Button size="small" variant="contained" onClick={()=>{
-
-fetch("http://localhost:3000/authentication/login",{
-    method: "POST",
-    body: JSON.stringify({
-        username: email,
-        password: password
-    }),
-    headers:{
-      "Content-type": "application/json"
-    }
-}).then((res)=>{
-res.json().then((data)=>{ // response object
-    // console.log(data);
-    localStorage.setItem("token",data.token);
-    window.location = "/todos";
-  })
-});
-
+        <Button size="small" variant="contained" onClick={async ()=>{
+        const res = await axios.post("http://localhost:3000/authentication/login",{
+          username: email,
+          password: password
+        });
+        localStorage.setItem("token",res.data.token);
+        window.location = "/todos";
 }}>Login</Button>
       </CardActions>
     </Card>
