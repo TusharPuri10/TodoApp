@@ -14,34 +14,33 @@ function App()
 {
   const [isCardShown, setCardShown] = useRecoilState(isShownState);
 
-  // const UpdateCard = forwardRef(function (props, ref) {
+  const UpdateCard = forwardRef(function (props, ref) {
 
-  //   if(id!="")
-  //   {
-  //     return (
-  //       <div ref={ref} {...props}>
-  //         {/* <TodoUpdate id={id} title={title} description={description} completed={completed} isShown={isShown} setShown={setShown} isCardShown={isCardShown} setCardShown={setCardShown}/> */}
-  //       </div>
-  //     );
-  //   }
-  //   else
-  //   {
-  //     return <div ref={ref} {...props}>
-  //     </div>
-  //   }
-  // });
+    if(isCardShown!=null)
+    {
+      return (
+        <div ref={ref} {...props}>
+          <TodoUpdate/>
+        </div>
+      );
+    }
+    else
+    {
+      return <div ref={ref} {...props}>
+      </div>
+    }
+  });
 
 
   return <div>
-      {/* <div className={isShown ? "overlay" : "underlay"}>
-        <Grow in={isCardShown.isShown}>
+      <div className={isCardShown ? "overlay" : "underlay"}>
+        <Grow in={isCardShown?true:false}>
           <div>
               <UpdateCard/>
           </div>
         </Grow>
-      </div> */}
-      {/* <div className={isShown ? "app-main blur-page" : "app-main"}> */}
-      <div className="app-main">
+      </div>
+      <div className={isCardShown ? "app-main blur-page" : "app-main"}>
         <BrowserRouter>
         <Appbar/>
         <div className="scroll">

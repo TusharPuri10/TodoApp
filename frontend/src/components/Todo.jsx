@@ -7,33 +7,34 @@ import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
-import { useRecoilValue, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { isShownState, todoItem, todoListState  } from "../states/Todos";
 
 export function Todo({id})
 {
     const [todos,setTodos] = useRecoilState(todoListState);
-    const todo = useRecoilValue(todoItem(id));
-    const [isActive, setActive] = useState(todo.completed);
+    const [todo, updateTodo] = useRecoilState(todoItem(id));
     const [isCardShown,setCardShown] = useRecoilState(isShownState);
+    const [isActive, setActive] = useState(todo.completed);
 
     // useEffect(()=>{
     //     if(props.isShown==false)
     //     setCardShown(false);
     // },[props.isShown])
 
-  return <div className={isActive ? (isCardShown.isShown ? "done card todo hidden" : "done card todo")  : (isCardShown.isShown ? "card todo hidden" : "card todo")}  id={id} >
+  return <div className={isActive ? (isCardShown===id ? "done card todo hidden" : "done card todo")  : (isCardShown===id ? "card todo hidden" : "card todo")}  id={id} >
     <CardContent>
         <Typography sx={{ mb: 1.5 }} variant="body1" color="text.primary">{todo.title}</Typography> 
         <Typography  variant="body2" color="text.secondary">{todo.description}</Typography>
     </CardContent>
 
-    <div className={isCardShown.isShown ? "cover" : ""}>
+    <div className={isCardShown===id ? "cover" : ""}>
     <CardActions className="button-group">
 
         {/* Check Button */}
         <Fab color="primary" aria-label="add" onClick={ async()=>{
             setActive(!isActive);
+            updateTodo({ completed: !isActive });
             const res = await axios.put("http://localhost:3000/todos/"+id,{
                     title: todo.title,
                     description: todo.description,
@@ -50,10 +51,7 @@ export function Todo({id})
 
         {/* Edit Button */}
         <Fab color="primary" aria-label="add" onClick={()=>{
-            setCardShown({
-                isShown: true,
-                todoId: id
-            });
+            setCardShown(id);
         }}>
             <EditIcon fontSize="small" />
         </Fab>
@@ -67,8 +65,7 @@ export function Todo({id})
             });
             console.log(res.data.message);
             console.log(todos);
-            const newTodoList = todos.filter((todo)=>{ 
-                return todo._id !== id });
+            const newTodoList = todos.filter((todo)=>todo._id !== id);
             setTodos(newTodoList);
         }} >
             <DeleteIcon fontSize="small" />

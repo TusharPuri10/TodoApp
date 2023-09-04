@@ -10,7 +10,6 @@ import BASE_URL from "../config";
 function TodoPage()
 {
     const [todos,setTodos] = useRecoilState(todoListState);
-    
 
     async function getTodos(){
       const res = await axios.get(BASE_URL+"/todos",{

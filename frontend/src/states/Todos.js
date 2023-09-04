@@ -15,16 +15,14 @@ export const todoItem = selectorFamily({
   set: (todoId) => ({ set, get }, newValue) => {
     const todoList = get(todoListState);
     const updatedList = todoList.map((todo) =>
-      todo.id === todoId ? { ...todo, ...newValue } : todo
+      todo._id === todoId ? { ...todo, ...newValue } : todo
     );
+    console.log("updatedList",updatedList);
     set(todoListState, updatedList);
   },
 });
 
 export const isShownState = atom({
   key: 'isShown',
-  default: {
-    isShown: false,
-    todoId: null,
-  },
+  default: null,
 });

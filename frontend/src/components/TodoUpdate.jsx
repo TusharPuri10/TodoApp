@@ -6,11 +6,16 @@ import { Button, Typography,TextField, IconButton } from "@mui/material";
 import Fab from '@mui/material/Fab';
 import './styles/TodoPage.css'
 import axios from 'axios';
+import { useRecoilState } from "recoil";
+import { isShownState, todoItem  } from "../states/Todos";
 
-export function TodoUpdate(props){
+export function TodoUpdate(){
 
-    const [title,setTitle] = useState(props.title);
-    const [description,setDescription] = useState(props.description);
+    const [isCardShown,setCardShown] = useRecoilState(isShownState);
+    const [todo, updateTodo] = useRecoilState(todoItem(isCardShown));
+
+    const [title,setTitle] = useState(todo.title);
+    const [description,setDescription] = useState(todo.description);
 
 
     return <div className="update card">
@@ -40,18 +45,18 @@ export function TodoUpdate(props){
     </CardContent>
     <CardActions>
       <Fab color="primary" variant="extended" className="add-icon" onClick={async ()=>{
-            const res = await axios.put("http://localhost:3000/todos/"+props.id , {
+            const res = await axios.put("http://localhost:3000/todos/"+todo._id , {
               title: title,
               description: description,
-              completed: props.completed
+              completed: todo.completed
             }, {
               headers: {
                 "authorization": "Bearer " + localStorage.getItem("token"),
               }
             });
-            const data = res.data;
-            props.setShown(!props.isShown);
-            console.log(data.message);
+            setCardShown(null);
+            updateTodo({ title: title, description: description });
+            console.log(res.data.message);
         }}>
         Save
       </Fab>
