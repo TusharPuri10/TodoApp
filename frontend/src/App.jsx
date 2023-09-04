@@ -7,51 +7,48 @@ import Login from "./components/Login"
 import { useState,forwardRef,useEffect } from "react";
 import { Grow } from "@mui/material"
 import { TodoUpdate } from "./components/TodoUpdate"
+import { isShownState } from "./states/Todos";
+import { useRecoilState } from "recoil";
 
 function App()
 {
-  const [isShown, setShown] = useState(false);
-  const [id, setId] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [completed, setCompleted] = useState(false);
-  const [isCardShown, setCardShown] = useState(false);
-  
+  const [isCardShown, setCardShown] = useRecoilState(isShownState);
 
-  const UpdateCard = forwardRef(function (props, ref) {
+  // const UpdateCard = forwardRef(function (props, ref) {
 
-    if(id!="")
-    {
-      return (
-        <div ref={ref} {...props}>
-          <TodoUpdate id={id} title={title} description={description} completed={completed} isShown={isShown} setShown={setShown} isCardShown={isCardShown} setCardShown={setCardShown}/>
-        </div>
-      );
-    }
-    else
-    {
-      return <div ref={ref} {...props}>
-      </div>
-    }
-  });
+  //   if(id!="")
+  //   {
+  //     return (
+  //       <div ref={ref} {...props}>
+  //         {/* <TodoUpdate id={id} title={title} description={description} completed={completed} isShown={isShown} setShown={setShown} isCardShown={isCardShown} setCardShown={setCardShown}/> */}
+  //       </div>
+  //     );
+  //   }
+  //   else
+  //   {
+  //     return <div ref={ref} {...props}>
+  //     </div>
+  //   }
+  // });
 
 
   return <div>
-      <div className={isShown ? "overlay" : "underlay"}>
-        <Grow in={isShown}>
+      {/* <div className={isShown ? "overlay" : "underlay"}>
+        <Grow in={isCardShown.isShown}>
           <div>
               <UpdateCard/>
           </div>
         </Grow>
-      </div>
-      <div className={isShown ? "app-main blur-page" : "app-main"}>
+      </div> */}
+      {/* <div className={isShown ? "app-main blur-page" : "app-main"}> */}
+      <div className="app-main">
         <BrowserRouter>
         <Appbar/>
         <div className="scroll">
           <Routes>
             <Route path="/login" element={<Login/>}/> 
             <Route path="/signup" element={<Signup/>}/>
-            <Route path="/todos" element={<TodoPage setId={setId} isShown={isShown} setShown={setShown} isCardShown={isCardShown} setCardShown={setCardShown} setTitle={setTitle} setDescription={setDescription} setCompleted={setCompleted}/>}/>
+            <Route path="/todos" element={<TodoPage/>}/>
           </Routes>
         </div>
         </BrowserRouter>

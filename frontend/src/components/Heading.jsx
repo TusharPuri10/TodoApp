@@ -6,10 +6,13 @@ import { Button, Typography,TextField, IconButton } from "@mui/material";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
+import { useRecoilState } from "recoil";
+import { todoListState  } from "../states/Todos";
 
 export function Heading()
 {
 
+  const [todos,setTodos] = useRecoilState(todoListState);
   const [title,setTitle] = useState("");
   const [description,setDescription] = useState("");
 
@@ -54,6 +57,15 @@ export function Heading()
         console.log(res.data.todoId);
         setTitle("");
         setDescription("");
+        const newTodos = [...todos];
+        newTodos.push({
+          _id: res.data.todoId,
+          title: title,
+          description: description,
+          completed: false,
+          __v: 0
+        });
+        setTodos(newTodos);
       }}>
         <AddIcon fontSize="small" /> 
         add
