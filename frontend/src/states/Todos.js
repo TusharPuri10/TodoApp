@@ -26,3 +26,17 @@ export const isShownState = atom({
   key: 'isShown',
   default: null,
 });
+
+export const userStatus = atom({
+  key: 'userStatus',
+  default: {
+    isLoggedIn: false,
+    isSignedIn: false,
+    isLoggedOut: false
+  }
+});
+
+export const newTodoId = atom({
+  key: 'newTodoId',
+  default: null
+});

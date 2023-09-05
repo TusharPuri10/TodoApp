@@ -24,6 +24,7 @@
 }
 .hidden{
     background-color: #080909;
+    border: none;
 }
 .hidden p{
     color: #080909;

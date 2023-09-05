@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import { Typography, Grow} from "@mui/material";
@@ -16,11 +16,6 @@ export function Todo({id})
     const [todo, updateTodo] = useRecoilState(todoItem(id));
     const [isCardShown,setCardShown] = useRecoilState(isShownState);
     const [isActive, setActive] = useState(todo.completed);
-
-    // useEffect(()=>{
-    //     if(props.isShown==false)
-    //     setCardShown(false);
-    // },[props.isShown])
 
   return <div className={isActive ? (isCardShown===id ? "done card todo hidden" : "done card todo")  : (isCardShown===id ? "card todo hidden" : "card todo")}  id={id} >
     <CardContent>
@@ -58,15 +53,14 @@ export function Todo({id})
 
         {/* Delete Button */}
         <Fab color="primary" aria-label="add" onClick={async ()=>{
+            const newTodoList = todos.filter((todo)=>todo._id !== id);
+            setTodos(newTodoList);
             const res = await axios.delete("http://localhost:3000/todos/"+id,{
                 headers:{
                 "authorization" : "Bearer " + localStorage.getItem("token"),
                 }
             });
-            console.log(res.data.message);
-            console.log(todos);
-            const newTodoList = todos.filter((todo)=>todo._id !== id);
-            setTodos(newTodoList);
+            console.log(res.data.message)
         }} >
             <DeleteIcon fontSize="small" />
         </Fab>
