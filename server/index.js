@@ -8,7 +8,10 @@ const todoRouter = require('./routes/todo');
 
 
 const app = express();
-app.use(cors());//backend allows request from everywhere (not for production ready backend, just for testing)
+app.use(cors({
+  origin: "*",
+  credentials: true,
+}));//backend allows request from everywhere (not for production ready backend, just for testing)
 app.use(bodyParser.json());
 
 app.use('/authentication', authenticationRouter);
