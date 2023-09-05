@@ -2,7 +2,7 @@ body{
     margin: 0;
 }
 .app-main{
-    background-color: hsl(210, 3%, 16%);  
+    background-color: hsl(240, 1%, 19%);  
     position: fixed;
     width: 100vw;
     height: 100vh; 

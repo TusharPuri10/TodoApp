@@ -16,6 +16,7 @@ export function Heading() {
   const [todos, setTodos] = useRecoilState(todoListState);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const input1Ref = useRef(null);
   const input2Ref = useRef(null);
   const setTodoId = useSetRecoilState(newTodoId);
   const updateTodo = useSetRecoilState(todoItem("pending"));
@@ -64,6 +65,7 @@ export function Heading() {
     );
     setTodoId(res.data.todoId);
     updateTodo({ _id: res.data.todoId });
+    input1Ref.current.focus();
   }
 
   return (
@@ -89,6 +91,7 @@ export function Heading() {
           label="Title"
           variant="standard"
           value={title}
+          inputRef={input1Ref}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
             e.preventDefault();
