@@ -19,6 +19,10 @@ app.use('/todos', todoRouter);
 
 mongoose.connect('mongodb+srv://iamtusharpuri:BKdwitaMP711lt56@todoapp.nrvjyzj.mongodb.net/');
 
+app.get('/', (req, res) => {
+  res.send('Hello, this is the default route!');
+}); 
+
 app.listen(port,(err)=>{
   if(err){ console.log(err)}
   console.log(`App listening on port ${port}`);
