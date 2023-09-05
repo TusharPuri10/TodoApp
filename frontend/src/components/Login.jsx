@@ -68,7 +68,7 @@ function Login() {
     {
       setOpen(true);
       setSnackbarmsg({
-        message: "Network error!",
+        message: "Invalid Username or Password!",
         severity: "error",
       });
     }
