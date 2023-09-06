@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { useRecoilState } from "recoil";
 import { isShownState, todoItem, todoListState  } from "../states/Todos";
+import BASE_URL from "../config";
 
 export function Todo({id})
 {
@@ -30,7 +31,7 @@ export function Todo({id})
         <Fab color="primary" aria-label="add" onClick={ async()=>{
             setActive(!isActive);
             updateTodo({ completed: !isActive });
-            const res = await axios.put("http://localhost:3000/todos/"+id,{
+            const res = await axios.put(BASE_URL+"/todos/"+id,{
                     title: todo.title,
                     description: todo.description,
                     completed: !isActive
@@ -55,7 +56,7 @@ export function Todo({id})
         <Fab color="primary" aria-label="add" onClick={async ()=>{
             const newTodoList = todos.filter((todo)=>todo._id !== id);
             setTodos(newTodoList);
-            const res = await axios.delete("http://localhost:3000/todos/"+id,{
+            const res = await axios.delete(BASE_URL+"/todos/"+id,{
                 headers:{
                 "authorization" : "Bearer " + localStorage.getItem("token"),
                 }

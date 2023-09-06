@@ -10,6 +10,7 @@ import { useRecoilState } from "recoil";
 import { isShownState, todoItem  } from "../states/Todos";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from "@mui/material/Alert";
+import BASE_URL from "../config";
 
 export function TodoUpdate(){
 
@@ -37,7 +38,7 @@ export function TodoUpdate(){
         setOpen(true);
         return;
       }
-      const res = await axios.put("http://localhost:3000/todos/"+todo._id , {
+      const res = await axios.put(BASE_URL+"/todos/"+todo._id , {
         title: title,
         description: description,
         completed: todo.completed

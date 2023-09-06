@@ -10,6 +10,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { newTodoId, todoListState,todoItem } from "../states/Todos";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from "@mui/material/Alert";
+import BASE_URL from "../config";
 
 export function Heading() {
   const [open, setOpen] = useState(false);
@@ -51,7 +52,7 @@ export function Heading() {
     });
     setTodos(newTodos);
     const res = await axios.post(
-      "http://localhost:3000/todos",
+      BASE_URL+"/todos",
       {
         title: title,
         description: description,
