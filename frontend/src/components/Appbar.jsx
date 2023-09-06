@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { todoListState, snackbarState } from "../states/Todos";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
 
 function Appbar() {
   const navigate = useNavigate();
@@ -65,7 +65,10 @@ function Appbar() {
           </Alert>
         </Snackbar>
         <div>
-          <Typography>Todo</Typography>
+          <NavLink className="logo" to="/">
+            <TaskAltIcon fontSize="medium" />
+            Todo
+          </NavLink>
         </div>
         <div className="userbox">
           <div className="username">{userEmail}</div>
@@ -106,7 +109,7 @@ function Appbar() {
           </Alert>
         </Snackbar>
         <div>
-        <NavLink className="logo" to="/">
+          <NavLink className="logo" to="/">
             <TaskAltIcon fontSize="medium" />
             Todo
           </NavLink>
