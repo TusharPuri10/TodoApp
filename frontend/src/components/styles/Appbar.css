@@ -16,6 +16,11 @@ p {
     color: #D8D9DA;
     font-size: large;
     padding: 0.5rem;
+    color: #D8D9DA;
+    text-decoration: none;
+}
+.username:hover{
+    color: #A0BFE0;
 }
 .navLink {
     font-size: large;
@@ -32,9 +37,11 @@ p {
     display: flex;
 }
 .logo:hover{
-    color: #E4F1FF;
+    color: #A0BFE0;
 }
-
 .navLink.active {
-    color: #AED2FF;
+    color: #A0BFE0;
+}
+.userbox button:hover{
+    color: #A0BFE0;
 }

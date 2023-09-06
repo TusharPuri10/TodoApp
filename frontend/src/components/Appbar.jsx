@@ -71,8 +71,9 @@ function Appbar() {
           </NavLink>
         </div>
         <div className="userbox">
-          <div className="username">{userEmail}</div>
-
+          <NavLink className="username" to="/todos">
+            {userEmail}
+          </NavLink>
           <Button
             onClick={() => {
               localStorage.setItem("token", null);
