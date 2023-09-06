@@ -1,19 +1,20 @@
-import { useState, forwardRef, useRef } from "react";
-import Card from "@mui/material/Card";
+import { useState, useRef } from "react";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import { Button, Typography, TextField, IconButton } from "@mui/material";
+import { Typography, TextField } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { newTodoId, todoListState,todoItem } from "../states/Todos";
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from "@mui/material/Alert";
+import {
+  newTodoId,
+  todoListState,
+  todoItem,
+  snackbarState,
+} from "../states/Todos";
 import BASE_URL from "../config";
 
 export function Heading() {
-  const [open, setOpen] = useState(false);
   const [todos, setTodos] = useRecoilState(todoListState);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -21,26 +22,25 @@ export function Heading() {
   const input2Ref = useRef(null);
   const setTodoId = useSetRecoilState(newTodoId);
   const updateTodo = useSetRecoilState(todoItem("pending"));
+  const setOpen = useSetRecoilState(snackbarState);
 
-  const Alert = forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-  };
-
+  // Add todo function
   async function addTodo() {
-    if(title.length===0 || description.length===0)
-    {
-      setOpen(true);
+    if (title.length === 0 || description.length === 0) {
+      setOpen({
+        open: true,
+        message: "Please fill all the fields",
+        severity: "error",
+      });
       return;
     }
     setTitle("");
     setDescription("");
+    setOpen({
+      open: true,
+      message: "Todo added succesfully",
+      severity: "success",
+    });
     const newTodos = [...todos];
     newTodos.push({
       // _id: res.data.todoId,
@@ -52,7 +52,7 @@ export function Heading() {
     });
     setTodos(newTodos);
     const res = await axios.post(
-      BASE_URL+"/todos",
+      BASE_URL + "/todos",
       {
         title: title,
         description: description,
@@ -71,15 +71,6 @@ export function Heading() {
 
   return (
     <div className="card">
-      <Snackbar open={open} autoHideDuration={2500} onClose={handleClose}>
-        <Alert
-          onClose={handleClose}
-          severity="error"
-          sx={{ width: "100%" }}
-        >
-          please fill all the fields!
-        </Alert>
-      </Snackbar>
       <CardContent>
         <Typography variant="overline" display="block" color="text.secondary">
           Add new todo
@@ -95,9 +86,10 @@ export function Heading() {
           inputRef={input1Ref}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-            e.preventDefault();
-            input2Ref.current.focus();
-          }}}
+              e.preventDefault();
+              input2Ref.current.focus();
+            }
+          }}
         />
         <br />
         <TextField
@@ -113,17 +105,14 @@ export function Heading() {
           inputRef={input2Ref}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-            e.preventDefault();
-            addTodo();
-          }}}
+              e.preventDefault();
+              addTodo();
+            }
+          }}
         />
       </CardContent>
       <CardActions>
-        <Fab
-          variant="extended"
-          className="add-icon"
-          onClick={addTodo}
-        >
+        <Fab variant="extended" className="add-icon" onClick={addTodo}>
           <AddIcon fontSize="small" />
           add
         </Fab>

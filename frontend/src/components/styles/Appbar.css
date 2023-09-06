@@ -22,9 +22,19 @@ p {
     color: #D8D9DA;
     text-decoration: none;
     padding: 0.5rem;
-    
+}
+.logo{
+    font-size: 22px;
+    font-family:'Times New Roman', Times, serif;
+    color: #D8D9DA;
+    text-decoration: none;
+    padding: 0.5rem;
+    display: flex;
+}
+.logo:hover{
+    color: #E4F1FF;
 }
 
 .navLink.active {
-    color: #1976d2;
+    color: #AED2FF;
 }

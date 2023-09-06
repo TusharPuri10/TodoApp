@@ -7,8 +7,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
-import { useRecoilState } from "recoil";
-import { isShownState, todoItem, todoListState  } from "../states/Todos";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { isShownState, todoItem, todoListState, snackbarState  } from "../states/Todos";
 import BASE_URL from "../config";
 
 export function Todo({id})
@@ -17,6 +17,7 @@ export function Todo({id})
     const [todo, updateTodo] = useRecoilState(todoItem(id));
     const [isCardShown,setCardShown] = useRecoilState(isShownState);
     const [isActive, setActive] = useState(todo.completed);
+    const setOpen = useSetRecoilState(snackbarState);
 
   return <div className={isActive ? (isCardShown===id ? "done card todo hidden" : "done card todo")  : (isCardShown===id ? "card todo hidden" : "card todo")}  id={id} >
     <CardContent>
@@ -56,6 +57,11 @@ export function Todo({id})
         <Fab color="primary" aria-label="add" onClick={async ()=>{
             const newTodoList = todos.filter((todo)=>todo._id !== id);
             setTodos(newTodoList);
+            setOpen({
+                open: true,
+                message: "Deleted Succsessfully",
+                severity: "success"
+            });
             const res = await axios.delete(BASE_URL+"/todos/"+id,{
                 headers:{
                 "authorization" : "Bearer " + localStorage.getItem("token"),

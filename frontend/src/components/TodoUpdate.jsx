@@ -6,10 +6,8 @@ import { Button, Typography,TextField, IconButton } from "@mui/material";
 import Fab from '@mui/material/Fab';
 import './styles/TodoPage.css'
 import axios from 'axios';
-import { useRecoilState } from "recoil";
-import { isShownState, todoItem  } from "../states/Todos";
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from "@mui/material/Alert";
+import { useRecoilState,useSetRecoilState } from "recoil";
+import { isShownState, todoItem, snackbarState  } from "../states/Todos";
 import BASE_URL from "../config";
 
 export function TodoUpdate(){
@@ -17,27 +15,27 @@ export function TodoUpdate(){
     const input2Ref = useRef(null);
     const [isCardShown,setCardShown] = useRecoilState(isShownState);
     const [todo, updateTodo] = useRecoilState(todoItem(isCardShown));
-    const [open, setOpen] = useState(false);
     const [title,setTitle] = useState(todo.title);
     const [description,setDescription] = useState(todo.description);
-
-    const Alert = forwardRef(function Alert(props, ref) {
-      return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-    });
-  
-    const handleClose = (event, reason) => {
-      if (reason === "clickaway") {
-        return;
-      }
-      setOpen(false);
-    };
+    const setOpen = useSetRecoilState(snackbarState);
 
     async function updatetodo(){
       if(title.length===0 || description.length===0)
       {
-        setOpen(true);
+        setOpen({
+          open: true,
+          message: "Please fill all the fields",
+          severity: "error"
+        });
         return;
       }
+      setCardShown(null);
+      updateTodo({ title: title, description: description });
+      setOpen({
+        open: true,
+        message: "Todo updated succesfully",
+        severity: "success"
+      });
       const res = await axios.put(BASE_URL+"/todos/"+todo._id , {
         title: title,
         description: description,
@@ -47,21 +45,10 @@ export function TodoUpdate(){
           "authorization": "Bearer " + localStorage.getItem("token"),
         }
       });
-      setCardShown(null);
-      updateTodo({ title: title, description: description });
       console.log(res.data.message);
   }
 
     return <div className="update card">
-        <Snackbar open={open} autoHideDuration={2500} onClose={handleClose}>
-          <Alert
-            onClose={handleClose}
-            severity="error"
-            sx={{ width: "100%" }}
-          >
-            please fill all the fields!
-          </Alert>
-        </Snackbar>
         <CardContent>
         <Typography variant="overline" display="block" color="text.secondary">
           Edit the Todo
