@@ -6,6 +6,20 @@
     flex-wrap: wrap;
     margin: 0 0 50px 0;
 }
+.home-page{
+    color: white;
+    font-size: 4rem;
+    padding: 1.2em 0 0 1.2em;
+}
+.home-page-footer{
+    padding: 1em 0 0 5em;
+    
+}
+.home-page-footer span{
+    font-size: 1.2rem;
+    color: white;
+}
+
 .card{
     background-color: white;
     margin: 1.5rem;
@@ -25,6 +39,19 @@
         border-radius: 10px;
         min-width: 180px;
         max-width: 200px;
+    }
+    .home-page{
+        color: white;
+        font-size: 4rem;
+        padding: 1.2em 0 0 0.2em;
+    }
+    .home-page-footer{
+        padding: 1em 0 0 2.6em;
+        
+    }
+    .home-page-footer span{
+        font-size: 1.2rem;
+        color: white;
     }
 }
 .card.todo{

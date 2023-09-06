@@ -9,6 +9,7 @@ import { Grow } from "@mui/material"
 import { TodoUpdate } from "./components/TodoUpdate"
 import { isShownState } from "./states/Todos";
 import { useRecoilState } from "recoil";
+import Home from "./components/Home";
 
 function App()
 {
@@ -44,8 +45,8 @@ function App()
         <BrowserRouter>
         <Appbar/>
         <div className="scroll">
-          hello world
           <Routes>
+            <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<Login/>}/> 
             <Route path="/signup" element={<Signup/>}/>
             <Route path="/todos" element={<TodoPage/>}/>
