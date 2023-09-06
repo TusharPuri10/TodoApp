@@ -48,7 +48,7 @@ function Appbar() {
     });
   };
 
-  if (status) {
+  if (userEmail) {
     return (
       <div className="bar">
         <Snackbar

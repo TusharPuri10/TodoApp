@@ -59,7 +59,7 @@ export function Todo({id})
             setTodos(newTodoList);
             setOpen({
                 open: true,
-                message: "Deleted Succsessfully",
+                message: "Deleted successfully",
                 severity: "success"
             });
             const res = await axios.delete(BASE_URL+"/todos/"+id,{

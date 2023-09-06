@@ -19,7 +19,6 @@
     font-size: 1.2rem;
     color: white;
 }
-
 .card{
     background-color: white;
     margin: 1.5rem;
@@ -27,32 +26,6 @@
     border-radius: 10px;
     min-width: 240px;
     max-width: 300px;
-}
-@media screen and (max-width:500px){
-    .main-page{
-        justify-content: center;
-    }
-    .card{
-        background-color: white;
-        margin: 1rem;
-        padding: 0.5em;
-        border-radius: 10px;
-        min-width: 180px;
-        max-width: 200px;
-    }
-    .home-page{
-        color: white;
-        font-size: 4rem;
-        padding: 1.2em 0 0 0.2em;
-    }
-    .home-page-footer{
-        padding: 1em 0 0 2.6em;
-        
-    }
-    .home-page-footer span{
-        font-size: 1.2rem;
-        color: white;
-    }
 }
 .card.todo{
     word-break: break-word;
@@ -96,4 +69,31 @@
     left: 0; 
     right: 0; 
     margin: 180px auto;
+}
+
+@media screen and (max-width:500px){
+    .main-page{
+        justify-content: center;
+    }
+    .card{
+        background-color: white;
+        margin: 1rem;
+        padding: 0.5em;
+        border-radius: 10px;
+        min-width: 180px;
+        max-width: 200px;
+    }
+    .home-page{
+        color: white;
+        font-size: 2.5rem;
+        padding: 1.2em 0 0 0.2em;
+    }
+    .home-page-footer{
+        padding: 1em 0 0 0.5em;
+        
+    }
+    .home-page-footer span{
+        font-size: 1rem;
+        color: white;
+    }
 }
