@@ -77,11 +77,11 @@
     }
     .card{
         background-color: white;
-        margin: 1.5rem;
+        margin: 1rem;
         padding: 0.5em;
         border-radius: 10px;
-        min-width: 240px;
-        max-width: 300px;
+        min-width: 180px;
+        max-width: 200px;
     }
     .card.todo{
         word-break: break-word;
