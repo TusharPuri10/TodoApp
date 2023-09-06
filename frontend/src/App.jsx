@@ -42,7 +42,7 @@ function App()
         </Grow>
       </div>
       <div className={isCardShown ? "app-main blur-page" : "app-main"}>
-        <BrowserRouter>
+        <BrowserRouter basename="/">
         <Appbar/>
         <div className="scroll">
           <Routes>
