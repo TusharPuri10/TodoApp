@@ -7,7 +7,7 @@ const router = express.Router();
 // 1. Retrieve all todo items ( according to user )
 router.get("/",authorization, async (req,res) => {
     // logic to view todo of particular user
-    const user = await User.findOne({ username: req.user.username }).populate('todos');
+    const user = await User.findOne({ _id: req.userId }).populate('todos');
     if (user) {
       res.json({ todos: user.todos});
     } else {
@@ -32,7 +32,7 @@ router.get("/:id",authorization, async(req,res) => {
 router.post("/", authorization, async (req, res) => {
   const todo = new Todo(req.body);
   await todo.save();
-  const user = await User.findOne({ username: req.user.username });
+  const user = await User.findOne({ _id: req.userId }); 
     if (user) {
         user.todos.push(todo);
         await user.save();

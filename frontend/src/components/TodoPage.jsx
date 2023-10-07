@@ -26,7 +26,7 @@ function TodoPage() {
 
   useEffect(() => {
     getTodos();
-  }, [status]);
+  }, []);
 
 
   return (

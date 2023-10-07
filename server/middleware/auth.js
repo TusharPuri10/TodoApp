@@ -17,7 +17,7 @@ function authorization(req,res,next)
       }
       else
       {
-        req.user = user;
+        req.userId = user.id;
         next();
       }
     })
