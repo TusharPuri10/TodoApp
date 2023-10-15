@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 //define mongoose schema
 const userSchema = new mongoose.Schema({
@@ -14,7 +14,5 @@ const userSchema = new mongoose.Schema({
   })
   
   //define mongoose model
-  const User = mongoose.model('User',userSchema);
-  const Todo = mongoose.model('Todo',todoSchema);
-
-  module.exports = {User,Todo};
+export const User = mongoose.model('User',userSchema);
+export const Todo = mongoose.model('Todo',todoSchema);

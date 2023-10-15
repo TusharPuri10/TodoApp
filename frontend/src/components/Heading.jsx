@@ -26,7 +26,11 @@ export function Heading() {
 
   // Add todo function
   async function addTodo() {
-    if (title.length === 0 || description.length === 0) {
+    const newTitle = title.trim();
+    const newDescription = description.trim();
+    setTitle("");
+    setDescription("");
+    if (newTitle.length === 0 || newDescription.length === 0) {
       setOpen({
         open: true,
         message: "Please fill all the fields",
@@ -34,8 +38,6 @@ export function Heading() {
       });
       return;
     }
-    setTitle("");
-    setDescription("");
     setOpen({
       open: true,
       message: "Todo added succesfully",
@@ -45,27 +47,40 @@ export function Heading() {
     newTodos.push({
       // _id: res.data.todoId,
       _id: "pending",
-      title: title,
-      description: description,
+      title: newTitle,
+      description: newDescription,
       completed: false,
       __v: 0,
     });
     setTodos(newTodos);
-    const res = await axios.post(
-      BASE_URL + "/todos",
-      {
-        title: title,
-        description: description,
-        completed: false,
-      },
-      {
-        headers: {
-          authorization: "Bearer " + localStorage.getItem("token"),
+    try{
+      const res = await axios.post(
+        BASE_URL + "/todos",
+        {
+          title: newTitle,
+          description: newDescription,
+          completed: false,
         },
-      }
-    );
-    setTodoId(res.data.todoId);
-    updateTodo({ _id: res.data.todoId });
+        {
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      setTodoId(res.data.todoId);
+      updateTodo({ _id: res.data.todoId });
+    }
+    catch(err){
+      const errorMessage = err.response.data.message;
+      setOpen({
+        open: true,
+        message: errorMessage,
+        severity: "error",
+      });
+      const newTodoList = todos.filter((todo)=>todo._id !== "pending");
+      setTodos(newTodoList);
+      return;
+    }
     input1Ref.current.focus();
   }
 

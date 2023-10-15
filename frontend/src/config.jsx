@@ -1,3 +1,3 @@
-const BASE_URL = "https://todo-backend-tushar-puri.onrender.com";
+const BASE_URL = "http://localhost:3000";
 
 export default BASE_URL;

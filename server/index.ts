@@ -1,10 +1,10 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
 const port = 3000;
-const cors = require('cors');
-const authenticationRouter = require('./routes/authentication');
-const todoRouter = require('./routes/todo');
+import cors from 'cors';
+import authenticationRouter from './routes/authentication';
+import todoRouter from './routes/todo';
 
 
 const app = express();
@@ -23,8 +23,7 @@ app.get('/', (req, res) => {
   res.send('Hello, this is the default route!');
 }); 
 
-app.listen(port,(err)=>{
-  if(err){ console.log(err)}
+app.listen(port,()=>{
   console.log(`App listening on port ${port}`);
 })
 
