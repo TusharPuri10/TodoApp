@@ -79,7 +79,15 @@ router.post("/", authorization, async (req: Request, res: Response) => {
 // 4. Update a todo item
 router.put("/:id",authorization, async (req: Request, res: Response) => {
 
-  const todo = await Todo.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  const inputs = CreateTodoRequest.safeParse(req.body);
+  if(!inputs.success)
+  {
+    const errorMessage = JSON.parse(inputs.error.message);
+    // console.log(errorMessage[0].message);
+    return res.status(411).json({message: errorMessage[0].message});
+  }
+
+  const todo = await Todo.findByIdAndUpdate(req.params.id, inputs.data, { new: true });
   if (todo) {
     res.json({ message: 'todo updated successfully' });
   } else {

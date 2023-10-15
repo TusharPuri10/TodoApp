@@ -11,7 +11,7 @@ const router = Router();
 
 const CreateUsernameRequest = z.object({
   username: z.string().min(3).max(20),
-  password: z.string().min(6).max(20)
+  password: z.string().min(3).max(20)
 });
 
 //0. get username
@@ -34,7 +34,9 @@ router.post("/signup" , async(req: Request ,res: Response)=>{
     const inputs = CreateUsernameRequest.safeParse(req.body);
     if(!inputs.success)
     {
-      return res.status(411).json({message: 'Invalid username or password'});
+      const errorMessage = JSON.parse(inputs.error.message);
+      // console.log(errorMessage[0].message);
+      return res.status(411).json({message: errorMessage[0].message});
     }
     // const { username, password } = req.body;
     const user = await User.findOne({ username: inputs.data.username });
@@ -51,8 +53,14 @@ router.post("/signup" , async(req: Request ,res: Response)=>{
 
 // 2. User login
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username, password });
+  const inputs = CreateUsernameRequest.safeParse(req.body);
+  if(!inputs.success)
+  {
+    const errorMessage = JSON.parse(inputs.error.message);
+    // console.log(errorMessage[0].message);
+    return res.status(411).json({message: errorMessage[0].message});
+  }
+  const user = await User.findOne({ username: inputs.data.username });
   if (user) {
     const token = jwt.sign({id: user._id}, SECRET, { expiresIn: '1h' });
     res.json({ message: 'Logged in successfully', token });

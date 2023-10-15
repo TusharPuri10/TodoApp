@@ -45,12 +45,12 @@ function Signup() {
         message: "Signed in succesfully",
         severity: "success"
       });
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      const errorMessage = err.response.data.message;
       setOpen({
         open: true,
-        message: "User already exists",
-        severity: "warning"
+        message: errorMessage,
+        severity: "error",
       });
     }
   }

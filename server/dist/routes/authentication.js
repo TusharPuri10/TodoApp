@@ -21,7 +21,7 @@ const zod_1 = require("zod");
 const router = (0, express_1.Router)();
 const CreateUsernameRequest = zod_1.z.object({
     username: zod_1.z.string().min(3).max(20),
-    password: zod_1.z.string().min(6).max(20)
+    password: zod_1.z.string().min(3).max(20)
 });
 //0. get username
 router.get("/username", auth_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -38,7 +38,9 @@ router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function*
     // logic to sign up 
     const inputs = CreateUsernameRequest.safeParse(req.body);
     if (!inputs.success) {
-        return res.status(411).json({ message: 'Invalid username or password' });
+        const errorMessage = JSON.parse(inputs.error.message);
+        // console.log(errorMessage[0].message);
+        return res.status(411).json({ message: errorMessage[0].message });
     }
     // const { username, password } = req.body;
     const user = yield db_1.User.findOne({ username: inputs.data.username });
@@ -55,8 +57,13 @@ router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function*
 }));
 // 2. User login
 router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password } = req.body;
-    const user = yield db_1.User.findOne({ username, password });
+    const inputs = CreateUsernameRequest.safeParse(req.body);
+    if (!inputs.success) {
+        const errorMessage = JSON.parse(inputs.error.message);
+        // console.log(errorMessage[0].message);
+        return res.status(411).json({ message: errorMessage[0].message });
+    }
+    const user = yield db_1.User.findOne({ username: inputs.data.username });
     if (user) {
         const token = jsonwebtoken_1.default.sign({ id: user._id }, auth_2.SECRET, { expiresIn: '1h' });
         res.json({ message: 'Logged in successfully', token });

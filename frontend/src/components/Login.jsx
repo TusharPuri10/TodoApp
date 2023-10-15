@@ -41,10 +41,11 @@ function Login() {
         message: "Logged in succesfully",
         severity: "success",
       });
-    } catch (e) {
+    } catch (err) {
+      const errorMessage = err.response.data.message;
       setOpen({
         open: true,
-        message: "Invalid username or password",
+        message: errorMessage,
         severity: "error",
       });
     }
